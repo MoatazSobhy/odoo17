@@ -54,6 +54,28 @@ class Property(models.Model):
                 # print("Selling price is not valid")
                 raise ValidationError("Please add valid selling price!")
 
+    def action_draft(self):
+        for rec in self:
+            rec.state = "draft"
+            # self.write({
+            #     'state':'draft'
+            # })
+
+    def action_pending(self):
+        for rec in self:
+            rec.state = "pending"
+            # self.write({
+            #     'state':'pending'
+            # })
+
+    def action_sold(self):
+        for rec in self:
+            rec.state = "sold"
+            # self.write({
+            #     'state':'sold'
+            # })
+
+
     # # Create Method Overwrite
     # @api.model_create_multi
     # def create(self, vals):
