@@ -1,5 +1,5 @@
 <odoo>
-<!--    customize tree view-->
+    <!--    customize tree view-->
     <record id="property_view_tree" model="ir.ui.view">
         <field name="name">property tree</field>
         <field name="model">property</field>
@@ -10,6 +10,7 @@
                 <field name="date_availability"/>
                 <field name="owner_id"/>
                 <field name="selling_price"/>
+                <field name="state"/>
                 <field name="garden"/>
                 <field name="tag_ids"/>
                 <field name="bedrooms" optional="1"/>
@@ -19,7 +20,7 @@
         </field>
     </record>
 
-<!--    customize form view-->
+    <!--    customize form view-->
     <record id="property_view_form" model="ir.ui.view">
         <field name="name">property form</field>
         <field name="model">property</field>
@@ -27,6 +28,10 @@
             <!-- <form create="1" edit="1" delete="1"> -->
             <form>
                 <sheet>
+                    <header>
+                        <!-- <field name="state" widget="statusbar" statusbar_visible="draft, sold"/> -->
+                        <field name="state" widget="statusbar" options="{'clickable':1}"/>
+                    </header>
                     <div class="oe_title">
                         <label for="name"/>
                         <h1>
@@ -57,7 +62,7 @@
         </field>
     </record>
 
-<!--    customize search view, filter, group by-->
+    <!--    customize search view, filter, group by-->
     <record id="property_view_search" model="ir.ui.view">
         <field name="name">property search</field>
         <field name="model">property</field>
@@ -66,7 +71,9 @@
                 <field name="selling_price" />
                 <field name="name" />
                 <field name="owner_id" />
+                <field name="state"/>
                 <field name="garden_orientation" />
+
 
                 <filter name="is_garden" string="With Garden" domain="[('garden','=',True)]"/>
                 <filter name="is_not_garden" string="With Not Garden" domain="[('garden','=',False)]"/>
@@ -78,13 +85,13 @@
         </field>
     </record>
 
-<!--    customize action view-->
+    <!--    customize action view-->
     <record id="property_action" model="ir.actions.act_window">
         <field name="name">Property</field>
         <field name="res_model">property</field>
     </record>
 
-<!--    third level menu item-->
+    <!--    third level menu item-->
     <menuitem
         id = "property_menu_item"
         name = "Properties"

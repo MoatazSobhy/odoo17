@@ -2,6 +2,7 @@
     <menuitem
         id = "real_estate_root_menu"
         name = "Real Estate"
+        web_icon="app_one,static/description/icon.png"
     />
     <menuitem
         id = "properties_menu"
@@ -14,3 +15,4 @@
         parent = "real_estate_root_menu"
     />
 </odoo>
+
