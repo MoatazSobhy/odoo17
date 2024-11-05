@@ -14,6 +14,8 @@ class Property(models.Model):
     expected_price = fields.Float()
     # selling_price = fields.Float(digits=(0,4))
     selling_price = fields.Float()
+    # diff = fields.Float(compute='_compute_diff', store=1, readonly=0)
+    diff = fields.Float(compute='_compute_diff', store=1)
     bedrooms = fields.Integer()
     living_area = fields.Integer()
     facades = fields.Integer()
@@ -74,6 +76,25 @@ class Property(models.Model):
             # self.write({
             #     'state':'sold'
             # })
+
+    # can depend on views fields or model fields or relational fields
+    @api.depends('expected_price', 'selling_price', 'owner_id.phone')
+    def _compute_diff(self):
+        for rec in self:
+            print("inside _compute_diff method")
+            rec.diff = rec.expected_price - rec.selling_price
+
+    # can depend on views fields only that appears in form view (simple fields names)
+    @api.onchange('expected_price')
+    def _onchange_expected_price(self):
+        for rec in self:
+            print("inside _onchange_expected_price method")
+            if rec.expected_price < 0.00:
+                return {
+                    'warning' : {'title': 'warning', 'message': 'negative number!', 'type': 'notification'}
+                }
+            # if rec.expected_price < 0.00:
+            #     raise ValidationError('Expected price can not be less than zero!')
 
 
     # # Create Method Overwrite
