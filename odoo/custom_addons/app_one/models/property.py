@@ -1,19 +1,19 @@
-from email.policy import default
-
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
 
 class Property(models.Model):
     _name = 'property'
+    _description = 'New Property'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(required=1, default='Property ', size=20)
     description = fields.Text()
     postcode = fields.Char()
-    date_availability = fields.Date(required=1)
-    expected_price = fields.Float()
+    date_availability = fields.Date(required=1, tracking=1)
+    expected_price = fields.Float(tracking=1)
     # selling_price = fields.Float(digits=(0,4))
-    selling_price = fields.Float()
+    selling_price = fields.Float(tracking=1)
     # diff = fields.Float(compute='_compute_diff', store=1, readonly=0)
     diff = fields.Float(compute='_compute_diff', store=1)
     bedrooms = fields.Integer()
@@ -29,6 +29,8 @@ class Property(models.Model):
         ('west','West'),
     ], default='north')
     owner_id = fields.Many2one('owner')  # database relation
+    owner_phone = fields.Char(related='owner_id.phone', readonly=0, store=1)
+    owner_address = fields.Char(related='owner_id.address', readonly=0, store=1)
     tag_ids = fields.Many2many('tag')
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -109,14 +111,14 @@ class Property(models.Model):
     # @api.model
     # def _search(self, domain, offset=0, limit=None, order=None, access_rights_uid=None):
     #     res = super(Property, self)._search(domain, offset=0, limit=None, order=None, access_rights_uid=None)
-    #     print("Inside Update (_search) Method")
+    #     print("Inside Read (_search) Method")
     #     #logic
     #     return res
     #
     # # Write Method Overwrite
     # def write(self, vals):
     #     res = super(Property, self).write(vals)
-    #     print("Inside Write Method")
+    #     print("Inside Write (update) Method")
     #     #logic
     #     return res
     #

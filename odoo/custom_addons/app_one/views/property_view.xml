@@ -5,7 +5,7 @@
         <field name="model">property</field>
         <field name="arch" type="xml">
             <!-- <tree multi_edit="1" create="1" edit="1" delete="1"> -->
-            <tree multi_edit="1">
+            <tree multi_edit="1" class="header_custom">
                 <field name="name"/>
                 <field name="date_availability"/>
                 <field name="owner_id"/>
@@ -57,6 +57,8 @@
                             <field name="garden_orientation"/>
                         </group>
                         <group string="Additional Info.">
+                            <field name="owner_phone"/>
+                            <field name="owner_address"/>
                             <field name="garden"/>
                             <field name="bedrooms"/>
                             <field name="garage"/>
@@ -69,6 +71,11 @@
                         </group>
                     </group>
                 </sheet>
+                <div class='oe_chatter'>
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
