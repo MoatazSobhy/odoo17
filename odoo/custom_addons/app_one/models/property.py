@@ -32,6 +32,8 @@ class Property(models.Model):
     owner_phone = fields.Char(related='owner_id.phone', readonly=0, store=1)
     owner_address = fields.Char(related='owner_id.address', readonly=0, store=1)
     tag_ids = fields.Many2many('tag')
+    line_ids = fields.One2many('property.line','property_id')
+
     state = fields.Selection([
         ('draft', 'Draft'),
         ('pending', 'Pending'),
@@ -128,3 +130,11 @@ class Property(models.Model):
     #     print("Inside Delete (unlink) Method")
     #     #logic
     #     return res
+
+
+class PropertyLine(models.Model):
+    _name = 'property.line'
+
+    property_id = fields.Many2one('property')
+    area = fields.Float()
+    description = fields.Char(required=1, default='Bedroom ', size=20)
