@@ -7,14 +7,14 @@ class TodoTask(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(required=1, tracking=1)
-    description = fields.Text(tracking=1)
-    due_date = fields.Date(tracking=1)
+    description = fields.Text(required=1, tracking=1)
+    due_date = fields.Date(required=1, tracking=1)
     assign_to = fields.Many2one('res.partner', tracking=1)
     status = fields.Selection([
         ('new','New'),
         ('in_progress','In Progress'),
         ('completed','Completed'),
-        ], default='new')
+        ], default='new', tracking=1)
 
     def action_new(self):
         for rec in self:
