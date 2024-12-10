@@ -8,4 +8,5 @@ from . import tag
 from . import sale_order
 from . import res_partner
 from . import client
+from . import building
 from . import *
