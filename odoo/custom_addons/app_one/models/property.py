@@ -33,7 +33,6 @@ class Property(models.Model):
     owner_address = fields.Char(related='owner_id.address', readonly=0, store=1)
     tag_ids = fields.Many2many('tag')
     line_ids = fields.One2many('property.line','property_id')
-
     state = fields.Selection([
         ('draft', 'Draft'),
         ('pending', 'Pending'),
@@ -100,6 +99,12 @@ class Property(models.Model):
             # if rec.expected_price < 0.00:
             #     raise ValidationError('Expected price can not be less than zero!')
 
+    # This is more to not exceed the number of bedrooms
+    @api.constrains('line_ids', 'bedrooms')
+    def _check_max_lines(self):
+        for rec in self:
+            if len(rec.line_ids) > rec.bedrooms:
+                raise ValidationError(f"You have only {rec.bedrooms} bedrooms.")
 
     # # Create Method Overwrite
     # @api.model_create_multi
@@ -138,3 +143,5 @@ class PropertyLine(models.Model):
     property_id = fields.Many2one('property')
     area = fields.Float()
     description = fields.Char(required=1, default='Bedroom ', size=20)
+
+
