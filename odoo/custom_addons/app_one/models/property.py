@@ -37,6 +37,7 @@ class Property(models.Model):
         ('draft', 'Draft'),
         ('pending', 'Pending'),
         ('sold', 'Sold'),
+        ('closed', 'Closed'),
     ], default='draft')
 
     _sql_constraints = [
@@ -78,6 +79,13 @@ class Property(models.Model):
             rec.state = "sold"
             # self.write({
             #     'state':'sold'
+            # })
+
+    def action_closed(self):
+        for rec in self:
+            rec.state = "closed"
+            # self.write({
+            #     'state':'closed'
             # })
 
     # can depend on views fields or model fields or relational fields

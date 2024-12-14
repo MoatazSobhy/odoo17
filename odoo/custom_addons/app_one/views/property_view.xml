@@ -113,10 +113,21 @@
         </field>
     </record>
 
-    <!--    customize action view-->
+    <!--    customize window action view-->
     <record id="property_action" model="ir.actions.act_window">
         <field name="name">Property</field>
         <field name="res_model">property</field>
+    </record>
+
+    <!--    customize server action view-->
+    <record id="property_closed_server_action" model="ir.actions.server">
+        <field name="name">Closed</field>
+        <field name="model_id" ref="model_property" />
+        <field name="binding_model_id" ref="model_property" />
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_closed()
+        </field>
     </record>
 
     <!--    third level menu item-->
