@@ -1,0 +1,112 @@
+<odoo>
+    <record id="todo_task_report" model="ir.actions.report">
+        <field name="name">Todo Task Report</field>
+        <field name="model">todo.task</field>
+        <field name="report_type">qweb-html</field>
+        <!-- <field name="report_type">qweb-pdf</field> -->
+        <field name="binding_model_id" ref="model_todo_task"/>
+        <field name="binding_type">report</field>
+        <field name="report_name">todo_management.todo_task_report_template</field>
+    </record>
+
+    <template id="todo_task_report_template">
+        <t t-call="web.html_container">    # or web.basic_layout
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                    <p>
+                        <strong>Task:</strong> <t t-esc="o.name" /><br />
+                        <strong>Due Date:</strong> <t t-esc="o.due_date" /><br />
+                        <strong>Assign To:</strong> <span t-field="o.assign_to" /><br />
+                        <strong>Estimated Time:</strong> <t t-esc="o.estimated_time" /> H
+                    </p>
+                    <p>
+                        <strong>Description:</strong><br />
+                        <t t-esc="o.description" /><br />
+                    </p>
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th colspan="4">Timesheet</th>
+                            </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="counter" t-value="1"/>
+                            <t t-set="total_time" t-value="0"/>
+                            <t t-foreach="o.line_ids" t-as="o2">
+                                <tr>
+                                    <td><t t-esc="counter" /></td>
+                                    <td><t t-esc="o2.date" /></td>
+                                    <td><t t-esc="o2.description" /></td>
+                                    <td><t t-esc="o2.time" /> H</td>
+                                </tr>
+                                <t t-set="counter" t-value="counter + 1"/>
+                                <t t-set="total_time" t-value="total_time + o2.time"/>
+                            </t>
+                        </tbody>
+                        <tfooter>
+                            <tr>
+                                <td colspan="3">Total Time</td>
+                                <td colspan="1"><t t-esc="total_time" /> H</td>
+                            </tr>
+                        </tfooter>
+                    </table>
+                    <br /><br />
+                    <style>
+                        .report-table {
+                            width: 100%;
+                            border: 1px solid #dee2e6;
+                            border-collapse: collapse;
+                            text-align: center;
+                            margin-top: 20px;
+                            font-family: Arial, sans-serif;
+                        }
+
+                        .report-table th,
+                        .report-table td {
+                            padding: 12px;
+                            text-align: center;
+                            text-align: left;
+                            border: 1px solid #dee2e6;
+                        }
+
+                        .report-table th {
+                            background-color: #f8f9fa;
+                            text-align: center;
+                            font-weight: bold;
+                            color: #495057;
+                        }
+
+                        .report-table td {
+                            background-color: #ffffff;
+                            text-align: center;
+                            color: #212529;
+                        }
+
+                        .report-table tfoot td {
+                            font-weight: bold;
+                            text-align: center;
+                            background-color: #f1f1f1;
+                        }
+
+                        p {
+                            font-family: Arial, sans-serif;
+                            font-size: 14px;
+                            line-height: 1.6;
+                            color: #495057;
+                        }
+
+                        strong {
+                            font-weight: bold;
+                        }
+                    </style>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

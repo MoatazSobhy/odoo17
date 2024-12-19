@@ -39,6 +39,8 @@ class Property(models.Model):
         ('sold', 'Sold'),
         ('closed', 'Closed'),
     ], default='draft')
+    expected_selling_date = fields.Date(tracking=1)
+    is_late = fields.Boolean()
 
     _sql_constraints = [
         ('unique_name', 'unique("name")', 'This name is exist!'),
@@ -113,6 +115,14 @@ class Property(models.Model):
         for rec in self:
             if len(rec.line_ids) > rec.bedrooms:
                 raise ValidationError(f"You have only {rec.bedrooms} bedrooms.")
+
+    def check_expected_selling_date(self):
+        property_ids = self.search([])
+        for rec in property_ids:
+            if rec.expected_selling_date and rec.state != 'sold' and rec.expected_selling_date < fields.date.today():
+                rec.is_late = True
+            else:
+                rec.is_late = False
 
     # # Create Method Overwrite
     # @api.model_create_multi

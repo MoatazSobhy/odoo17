@@ -5,7 +5,7 @@
         <field name="model">property</field>
         <field name="arch" type="xml">
             <!-- <tree multi_edit="1" create="1" edit="1" delete="1"> -->
-            <tree multi_edit="1" class="header_custom">
+            <tree multi_edit="1" class="header_custom" decoration-danger="(is_late)">
                 <field name="name"/>
                 <field name="date_availability"/>
                 <field name="owner_id"/>
@@ -18,6 +18,7 @@
                 <field name="description" optional="1"/>
                 <field name="expected_price" optional="1"/>
                 <field name="diff" optional="1"/>
+                <field name="is_late" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -50,6 +51,8 @@
                     <group>
                         <group string="General Info.">
                             <field name="date_availability"/>
+                            <field name="expected_selling_date"/>
+                            <field name="is_late"/>
                             <field name="selling_price"/>
                             <field name="expected_price"/>
                             <field name="diff"/>
@@ -101,25 +104,21 @@
                 <field name="owner_id" />
                 <field name="state"/>
                 <field name="garden_orientation" />
+                <field name="is_late" />
 
 
                 <filter name="is_garden" string="With Garden" domain="[('garden','=',True)]"/>
                 <filter name="is_not_garden" string="With Not Garden" domain="[('garden','=',False)]"/>
                 <filter name="is_garage" string="With Garage" domain="[('garage','=',True)]"/>
                 <filter name="is_not_garage" string="With Not Garage" domain="[('garage','=',False)]"/>
+                <filter name="is_late" string="Is Late" domain="[('is_late','=',True)]"/>
 
                 <filter name="group_garden" string="Garden Group" context="{'group_by':'garden'}"/>
             </search>
         </field>
     </record>
 
-    <!--    customize window action view-->
-    <record id="property_action" model="ir.actions.act_window">
-        <field name="name">Property</field>
-        <field name="res_model">property</field>
-    </record>
-
-    <!--    customize server action view-->
+     <!--    customize server action view-->
     <record id="property_closed_server_action" model="ir.actions.server">
         <field name="name">Closed</field>
         <field name="model_id" ref="model_property" />
@@ -130,6 +129,26 @@
         </field>
     </record>
 
+    <!--    customize automated action (cron) view-->
+    <record id="check_expected_selling_price" model="ir.cron">
+        <field name="name">Property</field>
+        <field name="model_id" ref="model_property" />
+        <field name="state">code</field>
+        <field name="code">
+            model.check_expected_selling_date()
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="active">True</field>
+    </record>
+
+    <!--    customize window action view-->
+    <record id="property_action" model="ir.actions.act_window">
+        <field name="name">Property</field>
+        <field name="res_model">property</field>
+    </record>
+    
     <!--    third level menu item-->
     <menuitem
         id = "property_menu_item"
