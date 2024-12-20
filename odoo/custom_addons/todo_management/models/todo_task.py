@@ -6,7 +6,7 @@ class TodoTask(models.Model):
     _description = 'New Task'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(required=1, tracking=1)
+    name = fields.Char(required=1, tracking=1, default='Task ')
     description = fields.Text(required=1, tracking=1)
     due_date = fields.Date(required=1, tracking=1)
     assign_to = fields.Many2one('res.partner', tracking=1)
@@ -43,6 +43,12 @@ class TodoTask(models.Model):
             total_time = sum(rec.line_ids.mapped('time'))
             if total_time > rec.estimated_time:
                 raise ValidationError("Your time sheet times must not exceed the estimated time!")
+
+    @api.constrains('estimated_time')
+    def _check_estimated_time_greater_zero(self):
+        for rec in self:
+            if rec.estimated_time == 0:
+                raise ValidationError("Please add suitable estimated time!")
 
     def check_due_date(self):
         todo_task_ids = self.search([])
