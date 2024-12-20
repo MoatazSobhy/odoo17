@@ -15,6 +15,7 @@
         'views/sale_order_view.xml',
         'views/res_partner_view.xml',
         'views/building_view.xml',
+        'views/property_history_view.xml',
         'reports/property_report.xml',
      ],
     'assets' : {

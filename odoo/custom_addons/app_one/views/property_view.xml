@@ -36,7 +36,7 @@
                         <!-- <field name="state" widget="statusbar" options="{'clickable':1}"/> -->
                         <button name="action" type="object" class="btn-primary" string="Action" />
                         <button name="action_draft" type="object" class="btn-primary" string="Set To Draft"
-                                invisible="state == 'draft'"/>
+                                invisible="state in ('draft', 'closed')"/>
                         <button name="action_pending" type="object" class="btn-secondary" string="Pending"
                                 invisible="state != 'draft'"/>
                         <button name="action_sold" type="object" class="btn-success" string="Sold"
@@ -50,26 +50,26 @@
                         </h1>
                         <label for="name"/>
                         <h2>
-                            <field name="name"/>
+                            <field name="name" readonly="state == 'closed'"/>
                         </h2>
                     </div>
                     <group>
                         <group string="General Info.">
-                            <field name="date_availability"/>
-                            <field name="expected_selling_date"/>
-                            <field name="selling_price"/>
-                            <field name="expected_price"/>
+                            <field name="date_availability" readonly="state == 'closed'"/>
+                            <field name="expected_selling_date" readonly="state == 'closed'"/>
+                            <field name="selling_price" readonly="state == 'closed'"/>
+                            <field name="expected_price" readonly="state == 'closed'"/>
                             <field name="diff"/>
-                            <field name="owner_id"/>
-                            <field name="garden_orientation"/>
+                            <field name="owner_id" readonly="state == 'closed'"/>
+                            <field name="garden_orientation" readonly="state == 'closed'"/>
                         </group>
                         <group string="Additional Info.">
-                            <field name="owner_phone"/>
-                            <field name="owner_address"/>
-                            <field name="garden"/>
-                            <field name="bedrooms"/>
-                            <field name="garage"/>
-                            <field name="tag_ids" widget="many2many_tags"/>
+                            <field name="owner_phone" readonly="state == 'closed'"/>
+                            <field name="owner_address" readonly="state == 'closed'"/>
+                            <field name="garden" readonly="state == 'closed'"/>
+                            <field name="bedrooms" readonly="state == 'closed'"/>
+                            <field name="garage" readonly="state == 'closed'"/>
+                            <field name="tag_ids" widget="many2many_tags" readonly="state == 'closed'"/>
                         </group>
                         <group>
                            <!-- <field name="description"/>-->
@@ -78,7 +78,7 @@
                         </group>
                         <notebook>
                             <page string="Bedrooms">
-                                <field name="line_ids">
+                                <field name="line_ids" readonly="state == 'closed'">
                                     <tree editable="bottom">
                                         <field name="description"/>
                                         <field name="area"/>
