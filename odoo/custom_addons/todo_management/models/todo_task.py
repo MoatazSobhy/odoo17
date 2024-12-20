@@ -60,3 +60,9 @@ class TodoTaskLine(models.Model):
     description = fields.Char(required=1, default='Do ', size=20)
     time = fields.Integer(required=1)
 
+    @api.constrains('time')
+    def _check_time_greater_zero(self):
+        for rec in self:
+            if rec.time == 0:
+                raise ValidationError("Please add suitable time!")
+
