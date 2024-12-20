@@ -7,6 +7,7 @@ class Property(models.Model):
     _description = 'New Property'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
+    ref = fields.Char(default='New', readonly=1)
     name = fields.Char(required=1, default='Property ', size=20)
     description = fields.Text()
     postcode = fields.Char()
@@ -149,8 +150,13 @@ class Property(models.Model):
         # we also can use update (write)
         # we also can use unlink (delete)
 
-
-
+    # Create Method Overwrite
+    @api.model_create_multi
+    def create(self, vals):
+        res = super(Property, self).create(vals)
+        if res.ref == 'New':
+            res.ref = self.env['ir.sequence'].next_by_code('property_seq')
+        return res
 
     # # Create Method Overwrite
     # @api.model_create_multi
