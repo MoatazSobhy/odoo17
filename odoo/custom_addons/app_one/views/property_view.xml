@@ -34,6 +34,7 @@
                     <header>
                         <!-- <field name="state" widget="statusbar" statusbar_visible="draft, sold"/> -->
                         <!-- <field name="state" widget="statusbar" options="{'clickable':1}"/> -->
+                        <button name="action" type="object" class="btn-primary" string="Action" />
                         <button name="action_draft" type="object" class="btn-primary" string="Set To Draft"
                                 invisible="state == 'draft'"/>
                         <button name="action_pending" type="object" class="btn-secondary" string="Pending"

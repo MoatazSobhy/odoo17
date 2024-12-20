@@ -124,6 +124,34 @@ class Property(models.Model):
             else:
                 rec.is_late = False
 
+    def action(self):
+        print(self.env)
+        print(self.env.user.name)
+        print(self.env.user.login)
+        print(self.env.user.id)
+        print(self.env.uid)
+        print(self.env.company.name)
+        print(self.env.company.id)
+        print(self.env.company.street)
+        print(self.env.context)
+        print(self.env.cr)
+        print(self.env['owner'].create({
+            'name': 'Name One',
+            'phone': '01203139628',
+            'address': 'Alexandria',
+        }))
+        print(self.env['owner'].create({
+            'name': 'Name Two',
+            'phone': '01208346606',
+            'address': 'Cairo',
+        }))
+        print(self.env['owner'].search([]))
+        # we also can use update (write)
+        # we also can use unlink (delete)
+
+
+
+
     # # Create Method Overwrite
     # @api.model_create_multi
     # def create(self, vals):
