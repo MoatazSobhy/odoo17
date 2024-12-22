@@ -95,6 +95,11 @@ class Property(models.Model):
             #     'state':'closed'
             # })
 
+    def action_open_change_state(self):
+        action = self.env['ir.actions.actions']._for_xml_id('app_one.change_state_action')
+        action['context'] = {'default_property_id': self.id}
+        return action
+                
     # can depend on views fields or model fields or relational fields
     @api.depends('expected_price', 'selling_price', 'owner_id.phone')
     def _compute_diff(self):
@@ -162,13 +167,14 @@ class Property(models.Model):
             res.ref = self.env['ir.sequence'].next_by_code('property_seq')
         return res
 
-    def create_history_record(self, old_state, new_state):
+    def create_history_record(self, old_state, new_state, reason=""):
         for rec in self:
           rec.env['property.history'].create({
               'user_id': rec.env.uid,
               'property_id': rec.id,
               'old_state': old_state,
               'new_state': new_state,
+              'reason': reason,
           })
 
     # # Create Method Overwrite

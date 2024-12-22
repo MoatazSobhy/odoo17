@@ -10,3 +10,4 @@ class PropertyHistory(models.Model):
     property_id = fields.Many2one('property')
     old_state = fields.Char()
     new_state = fields.Char()
+    reason = fields.Char()
