@@ -62,6 +62,8 @@
                             <field name="diff"/>
                             <field name="owner_id" readonly="state == 'closed'"/>
                             <field name="garden_orientation" readonly="state == 'closed'"/>
+                            <field name="create_time" readonly="1"/>
+                            <field name="next_time" readonly="1"/>
                         </group>
                         <group string="Additional Info.">
                             <field name="owner_phone" readonly="state == 'closed'"/>
@@ -109,7 +111,6 @@
                 <field name="state"/>
                 <field name="garden_orientation" />
                 <field name="is_late" />
-
 
                 <filter name="is_garden" string="With Garden" domain="[('garden','=',True)]"/>
                 <filter name="is_not_garden" string="With Not Garden" domain="[('garden','=',False)]"/>

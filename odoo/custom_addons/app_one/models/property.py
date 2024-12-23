@@ -1,6 +1,8 @@
+from email.policy import default
+
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
-
+from datetime import timedelta
 
 class Property(models.Model):
     _name = 'property'
@@ -42,6 +44,8 @@ class Property(models.Model):
     ], default='draft')
     expected_selling_date = fields.Date(tracking=1)
     is_late = fields.Boolean()
+    create_time = fields.Datetime(default=fields.Datetime.now())   # just to test default time
+    next_time = fields.Datetime(compute='_compute_next_time')      # just to test default time
 
     _sql_constraints = [
         ('unique_name', 'unique("name")', 'This name is exist!'),
@@ -175,7 +179,16 @@ class Property(models.Model):
               'old_state': old_state,
               'new_state': new_state,
               'reason': reason,
+              'line_ids': [(0, 0, {'description': line.description,'area': line.area}) for line in rec.line_ids],
           })
+
+    @api.depends('create_time')
+    def _compute_next_time(self):
+        for rec in self:
+            if rec.create_time:
+                rec.next_time = rec.create_time + timedelta(hours=6)
+            else:
+                rec.next_time = False
 
     # # Create Method Overwrite
     # @api.model_create_multi
