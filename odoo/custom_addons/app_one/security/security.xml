@@ -1,15 +1,30 @@
 <odoo>
+    <!--    Add security group category -->
     <record id="property_category" model="ir.module.category">
         <field name="name">Real Estate</field>
     </record>
 
+    <!--    Add security group -->
     <record id="property_manager_group" model="res.groups">
         <field name="name">Property Manager Group</field>
         <field name="category_id" ref="app_one.property_category"/>
     </record>
 
+    <!--    Add security group -->
     <record id="property_user_group" model="res.groups">
         <field name="name">Property User Group</field>
         <field name="category_id" ref="app_one.property_category"/>
     </record>
+
+    <!--    Add user record rules -->
+    <record id="property_user_record_rule" model="ir.rule">
+        <field name="name">Property User Record Rule</field>
+        <field name="model_id" ref="app_one.model_property"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_create" eval="True" />
+        <field name="perm_unlink" eval="True" />
+    </record>
+
 </odoo>
