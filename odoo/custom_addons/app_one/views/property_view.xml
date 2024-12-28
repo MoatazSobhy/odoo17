@@ -19,6 +19,7 @@
                 <field name="expected_price" optional="1"/>
                 <field name="diff" optional="1"/>
                 <field name="is_late" invisible="1"/>
+                <field name="active" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -31,6 +32,8 @@
             <!-- <form create="1" edit="1" delete="1"> -->
             <form>
                 <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <widget name="web_ribbon" title="Sold" bg_color="text-bg-success" invisible="state != 'sold'"/>
                     <header>
                         <!-- <field name="state" widget="statusbar" statusbar_visible="draft, sold"/> -->
                         <!-- <field name="state" widget="statusbar" options="{'clickable':1}"/> -->
@@ -71,6 +74,7 @@
                             <field name="garden" readonly="state == 'closed'"/>
                             <field name="bedrooms" readonly="state == 'closed'"/>
                             <field name="garage" readonly="state == 'closed'"/>
+                            <field name="active" readonly="state == 'closed'"/>
                             <field name="tag_ids" widget="many2many_tags" readonly="state == 'closed'"/>
                         </group>
                         <group>

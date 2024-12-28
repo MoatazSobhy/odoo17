@@ -72,3 +72,6 @@ class TodoTaskLine(models.Model):
             if rec.time == 0:
                 raise ValidationError("Please add suitable time!")
 
+
+
+

@@ -18,7 +18,7 @@
         </field>
     </record>
 
-    <!--    customize action view-->
+    <!--    customize window action view-->
     <record id="change_state_action" model="ir.actions.act_window">
         <field name="name">Change State</field>
         <field name="res_model">change.state</field>

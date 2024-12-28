@@ -73,10 +73,12 @@
                 <field name="name"/>
                 <field name="assign_to"/>
                 <field name="estimated_time"/>
+
                 <filter name="is_new" string="Status New" domain="[('status', '=', 'new')]" />
                 <filter name="is_in_progress" string="Status In-Progress" domain="[('status', '=', 'in_progress')]" />
                 <filter name="is_completed" string="Status Completed" domain="[('status', '=', 'completed')]" />
                 <filter name="is_is_late" string="Is Late" domain="[('is_late', '=', True)]" />
+
                 <filter name="group_status" string="Status Group" context="{'group_by':'status'}" />
                 <filter name="group_assign_to" string="Assign-To Group " context="{'group_by':'assign_to'}" />
                 <filter name="group_due_date" string="Due-Date Group " context="{'group_by':'due_date'}" />

@@ -43,6 +43,7 @@ class Property(models.Model):
         ('sold', 'Sold'),
         ('closed', 'Closed'),
     ], default='draft')
+    active = fields.Boolean(default=True)
     expected_selling_date = fields.Date(tracking=1)
     is_late = fields.Boolean()
     create_time = fields.Datetime(default=fields.Datetime.now())   # just to test default time
@@ -161,6 +162,10 @@ class Property(models.Model):
             'address': 'Cairo',
         }))
         print(self.env['owner'].search([]))
+        print(self.env['property'].search([('name', '=', 'Property 1')]))
+        print(self.env['property'].search([('&', 'name', '=', 'Property 1'), ('selling_price', '=', '1000')]))
+        print(self.env['property'].search([('|', 'name', '=', 'Property 1'), ('selling_price', '=', '1000')]))
+        print(self.env['property'].search([('!', 'name', '=', 'Property 1'), ('selling_price', '=', '1000')]))
         # we also can use update (write)
         # we also can use unlink (delete)
 

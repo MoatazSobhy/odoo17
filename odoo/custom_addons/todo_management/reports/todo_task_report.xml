@@ -10,8 +10,8 @@
     </record>
 
     <template id="todo_task_report_template">
-        <t t-call="web.html_container">    # or web.basic_layout
-            <t t-call="web.external_layout">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">  # or web.basic_layout
                 <t t-foreach="docs" t-as="o">
                     <p>
                         <strong>Task:</strong> <t t-esc="o.name" /><br />
