@@ -101,6 +101,7 @@ class Property(models.Model):
             #     'state':'closed'
             # })
 
+    # method for change state wizard
     def action_open_change_state(self):
         action = self.env['ir.actions.actions']._for_xml_id('app_one.change_state_action')
         action['context'] = {'default_property_id': self.id}
@@ -195,6 +196,14 @@ class Property(models.Model):
                 rec.next_time = rec.create_time + timedelta(hours=6)
             else:
                 rec.next_time = False
+
+    # method for smart button
+    def action_open_related_owner(self):
+        action = self.env['ir.actions.actions']._for_xml_id('app_one.owner_action')
+        view_id = self.env.ref('app_one.owner_view_form').id
+        action['res_id'] = self.owner_id.id
+        action['views'] = [[view_id, 'form']]
+        return action
 
     # # Create Method Overwrite
     # @api.model_create_multi
