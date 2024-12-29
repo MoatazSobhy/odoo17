@@ -13,7 +13,7 @@
         <t t-call="web.html_container">    # or web.basic_layout
             <t t-call="web.external_layout">
                 <t t-foreach="docs" t-as="o">
-                    <h1>Property Report</h1>
+                    <h1 style="font-family: 'RubikVinyl-Regular';">Property Report</h1>
                     <style>
                         table {
                             width: 100%;
